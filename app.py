@@ -5,7 +5,7 @@ import requests
 import streamlit as st
 import googlemaps
 
-gmaps = googlemaps.Client(key='AIzaSyDzp93kH-G8ygGQGIfc97ljgpQQwWFkXqQ')
+gmaps = googlemaps.Client(key='__google_api_key__')
 
 
 title="<h1 style='text-align: center;'>🚑응급실 삐용삐용🚑</h1>"
@@ -33,7 +33,7 @@ if submitted:
         # folium_static을 사용하여 folium 맵을 Streamlit 앱에 표시
         #folium_static(m)
     
-    es = Elasticsearch(cloud_id="ABC-JYPE:dXMtd2VzdC0yLmF3cy5mb3VuZC5pbzo0NDMkNzllZmQ3YTY0YWQxNDgzMDhjZDQzYWVmYTQ3Zjg0NzQkOTU5MWQwOWM4MmFjNDUyMDhhMDU1MTc1YmVlNDY5NDM=", api_key="eHJocEpJNEJ6T0c4TnY3aHY1Qk06ZEFYN1hFVjhTa3FwRTV4aE9KWVhkdw==")
+    es = Elasticsearch(cloud_id="__es_cloud_id__", api_key="__es_api_key__")
     
     # 거리 쿼리를 위한 중심 좌표
     latitude = 37.503316
@@ -80,7 +80,7 @@ if submitted:
                 google_maps_url = f"https://www.google.com/maps/embed/v1/directions?key=AIzaSyDzp93kH-G8ygGQGIfc97ljgpQQwWFkXqQ&origin=37.5003316,127.041683&destination={dlat},{dlon}"
                 st.write(f'<iframe width="600" height="450" frameborder="0" style="border:4" src="{google_maps_url}" allowfullscreen></iframe>', unsafe_allow_html=True)
                 #출발지, 도착지, 거리, 소요시간 계산 api
-                response = requests.get(f"https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins=37.503316,127.041683&destinations={dlat},{dlon}&region=KR&key=AIzaSyDzp93kH-G8ygGQGIfc97ljgpQQwWFkXqQ")
+                response = requests.get(f"https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins=37.503316,127.041683&destinations={dlat},{dlon}&region=KR&key=your_api_key")
                 data = response.json()
                 # st.write(data) #전체 걸리는 시간을 초로 나타낸 것
                 st.markdown(f"**연락처: {hit['DUTYTEL3']}")
@@ -93,7 +93,7 @@ if submitted:
                 st.write(f"진료: {hit['DUTYINF']}")
                 
                 url = 'http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire'
-                params ={'serviceKey' : 'HcMdtdccBIhT9uUdi4wT33I6TXJ5Nx6NDOWrAbYQ5XlqQUqCo%2B3q%2BSCa8suCLPnx%2FLyjfvLnAS1lZGpk869cPA%3D%3D', 'STAGE1' : '서울특별시', 'STAGE2' : hit['DUTYADDR'].split(' ')[1], 'pageNo' : '1', 'numOfRows' : '10'}
+                params ={'serviceKey' : '__your_service_key__', 'STAGE1' : '서울특별시', 'STAGE2' : hit['DUTYADDR'].split(' ')[1], 'pageNo' : '1', 'numOfRows' : '10'}
                 print(params)
                 response1 = requests.get(url, params=params)
                 print(response1)
